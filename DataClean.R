@@ -2,9 +2,9 @@ library(dplyr)
 library(usmap)
 library(stringr)
 library(lubridate)
-data <- read.csv('PublicAssistanceFundedProjectsDetails.csv', head = TRUE)
-hurricaneF <- data %>% filter(disasterNumber %in% c("1292","1293","1294","1295","1296","1297","1299","1300","1302","1303","1305","1307","1308","3143","3144","3145","3146","3147","3148","3149"))
-write.csv(hurricaneF,"hurricaneF.csv")
+# data <- read.csv('PublicAssistanceFundedProjectsDetails.csv', head = TRUE)
+# hurricaneF <- data %>% filter(disasterNumber %in% c("1292","1293","1294","1295","1296","1297","1299","1300","1302","1303","1305","1307","1308","3143","3144","3145","3146","3147","3148","3149"))
+# write.csv(hurricaneF,"hurricaneF.csv")
 
 hurricaneF <- read.csv("hurricaneF.csv")
 # hurricaneF %>% 
