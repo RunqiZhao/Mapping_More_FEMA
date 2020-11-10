@@ -1,7 +1,8 @@
 library(dplyr)
-library(usmap)
 library(stringr)
 library(lubridate)
+# library(usmap)
+
 # # FEMA data link: https://www.fema.gov/openfema-data-page/public-assistance-funded-projects-details-v1
 # data <- read.csv('PublicAssistanceFundedProjectsDetails.csv', head = TRUE)
  

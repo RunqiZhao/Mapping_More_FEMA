@@ -1,0 +1,23 @@
+---
+title: "Mapping With more Data - FEMA"
+author: "Ricky"
+date: "11/10/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load Data
+
+```{r}
+hrcc <- read.csv("hrc_county.csv", head = TRUE)
+hrcs <- read.csv("hrc_statewide.csv", head = TRUE)
+```
+
+## Mapping
+
+```{r}
+
+```
