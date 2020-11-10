@@ -26,6 +26,7 @@ hrc$countyCode <- str_pad(hrc$countyCode, 3, side = "left", "0")
 hrc_statewide <- filter(hrc,countyCode == "000")
 hrc_county <- filter(hrc,countyCode != "000")
 
+# unique(hrc_county$countyCode)
 hrc_county$Fips <- paste(hrc_county$stateNumberCode, hrc_county$countyCode, sep = "")
 
 # select useful columns for mapping
@@ -35,8 +36,10 @@ colnames(hrc)
 # unique(paste(hrc$dcc,hrc$damageCategory,sep = " - "))
 # unique(hrc$damageCategoryCode)
 
-hrc <- hrc %>% select("disasterNumber", "declarationYear", "incidentType","applicationTitle","damageCategoryCode","projectSize","stateNumberCode","projectAmount", "federalShareObligated", "totalObligated","Fips","obligatedDate")
+hrc_statewide <- hrc_statewide %>% select("disasterNumber", "declarationYear", "incidentType","applicationTitle","damageCategoryCode","projectSize","stateNumberCode","projectAmount", "federalShareObligated", "totalObligated","obligatedDate")
+hrc_county <- hrc_county %>% select("disasterNumber", "declarationYear", "incidentType","applicationTitle","damageCategoryCode","projectSize","stateNumberCode","projectAmount", "federalShareObligated", "totalObligated","Fips","obligatedDate")
 
-write.csv(hrc,"hrc.csv",row.names=FALSE)
+write.csv(hrc_statewide,"hrc_statewide.csv",row.names=FALSE)
+write.csv(hrc_county,"hrc_county.csv",row.names=FALSE)
 
-hrc <- read.csv("hrc.csv")
+# dt <- hrcc%>%filter(incidentType == "Hurricane")
