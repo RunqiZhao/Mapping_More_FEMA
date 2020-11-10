@@ -17,33 +17,16 @@ library(lubridate)
 hrc <- read.csv("hurricane.csv")
 
 # get fips
-hrc$Fips <- NA
-for (i in 1:dim(hrc)[1]){
-  if(hrc$countyCode[i] > 99){
-    if(hrc$stateNumberCode[i] > 9){
-      hrc$Fips[i] <- str_c(as.character(hrc$stateNumberCode[i]),as.character(hrc$countyCode[i]))
-    }
-    else{
-      hrc$Fips[i] <- str_c("0", as.character(hrc$stateNumberCode[i]),as.character(hrc$countyCode[i]))
-    }
-  }
-  else if(hrc$countyCode[i] > 9){
-    if(hrc$stateNumberCode[i] > 9){
-      hrc$Fips[i] <- str_c(as.character(hrc$stateNumberCode[i]), "0", as.character(hrc$countyCode[i]))
-    }
-    else{
-      hrc$Fips[i] <- str_c("0", as.character(hrc$stateNumberCode[i]), "0", as.character(hrc$countyCode[i]))
-    }
-  }
-  else if(hrc$countyCode[i] != 0){
-    if(hrc$stateNumberCode[i] > 9){
-      hrc$Fips[i] <- str_c(as.character(hrc$stateNumberCode[i]), "00", as.character(hrc$countyCode[i]))
-    }
-    else{
-      hrc$Fips[i] <- str_c("0", as.character(hrc$stateNumberCode[i]), "00", as.character(hrc$countyCode[i]))
-    }
-  }
-}
+hrc$stateNumberCode <- as.character(hrc$stateNumberCode)
+hrc$stateNumberCode <- str_pad(hrc$stateNumberCode, 2, side = "left", "0")
+
+hrc$countyCode <- as.character(hrc$countyCode)
+hrc$countyCode <- str_pad(hrc$countyCode, 3, side = "left", "0")
+
+hrc_statewide <- filter(hrc,countyCode == "000")
+hrc_county <- filter(hrc,countyCode != "000")
+
+hrc_county$Fips <- paste(hrc_county$stateNumberCode, hrc_county$countyCode, sep = "")
 
 # select useful columns for mapping
 colnames(hrc)
@@ -56,3 +39,4 @@ hrc <- hrc %>% select("disasterNumber", "declarationYear", "incidentType","appli
 
 write.csv(hrc,"hrc.csv",row.names=FALSE)
 
+hrc <- read.csv("hrc.csv")
