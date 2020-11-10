@@ -15,6 +15,11 @@ knitr::opts_chunk$set(echo = TRUE)
 hrcc <- read.csv("hrc_county.csv", head = TRUE)
 hrcs <- read.csv("hrc_statewide.csv", head = TRUE)
 ```
+projectAmount("Project Amount"): The estimated total cost of the Public Assistance grant project in dollars, without administrative costs. This amount is based on the damage survey	
+federalShareObligated("Federal Share Obligated"): The Public Assistance grant funding available to the grantee (State) in dollars, for sub-grantee's approved Project Worksheets	
+totalObligated("Total Obligated"): The federal share of the Public Assistance grant eligible project amount in dollars, plus grantee (State) and sub-grantee (applicant) administrative costs. The federal share is typically 75% of the total cost of the project
+
+
 
 ## Mapping
 
