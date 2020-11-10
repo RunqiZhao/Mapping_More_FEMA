@@ -42,4 +42,4 @@ hrc_county <- hrc_county %>% select("disasterNumber", "declarationYear", "incide
 write.csv(hrc_statewide,"hrc_statewide.csv",row.names=FALSE)
 write.csv(hrc_county,"hrc_county.csv",row.names=FALSE)
 
-# dt <- hrcc%>%filter(incidentType == "Hurricane")
+# dt <- hrc_county %>% filter(incidentType == "Hurricane")
