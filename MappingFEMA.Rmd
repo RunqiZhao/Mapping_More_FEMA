@@ -7,6 +7,8 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+warnings = F
+messages = F
 pacman::p_load(
 tidyverse,
 drat,
@@ -34,15 +36,21 @@ totalObligated("Total Obligated"): The federal share of the Public Assistance gr
 
 ## Mapping
 
-```{r}
+```{r include=FALSE}
 # hrcc$projectSize <- as.factor(hrcc$projectSize)
 hrcc$Fips <- str_pad(hrcc$Fips, 5, side = "left", "0")
 
-# total obligated amount
+# total obligated amount in thousands
 hrccJ <- hrcc %>% group_by(Fips) %>% 
-  summarise(state = unique(state), county = unique(county), TotalAmount = sum(totalObligated)) %>%
+  summarise(state = unique(state), county = unique(county), 
+            TotalAmount = sum(totalObligated)/1000) %>%
   rename(GEO_ID = Fips)
 
+# outliers
+hrccJ <- hrccJ %>% filter(!(TotalAmount %in% boxplot(hrccJ$TotalAmount)$out))
+```
+
+```{r}
 # json file
 loadJ <- geojsonio::geojson_read("gz_2010_us_050_00_5m.json", what = "sp")
 
@@ -55,11 +63,15 @@ hrccJoin <- geo_join(loadJ, hrccJ, by = "GEO_ID", how = "inner")
 # color pal
 pal <- colorNumeric("Blues", domain = hrccJoin$TotalAmount)
 
-# popup
+# popup 
 i_popup <- paste0("<strong>State: </strong>", hrccJoin$state, "<br>", 
                   "<strong>County: </strong>", hrccJoin$county, "<br>", 
-                  "<strong>Total Obligated Amount: </strong>", round(hrccJoin$TotalAmount,2)) 
+                  "<strong>Total Obligated Amount: </strong>", round(hrccJoin$TotalAmount,2) ,
+                  " ","thousands") 
+```
 
+
+```{r}
 # leaflet
 leaflet() %>% 
   addProviderTiles("CartoDB.Positron") %>%
@@ -69,12 +81,13 @@ leaflet() %>%
   addPolygons(data = hrccJoin,
               fillColor = ~pal(TotalAmount), 
               color = "#BDBDC3",
-              fillOpacity  = 1, 
+              fillOpacity  = 0.5, 
               smoothFactor = 0.2,
               weight = 1,
               popup = i_popup) %>%
   addLegend(pal = pal,
             values = hrccJoin$TotalAmount,
             position="bottomright",
-            title = "Total Obligated Amount(2009-2018)")
+            title = paste0("Total Obligated Amount",
+                           '<br>',"in thousands (2009-2018)"))
 ```
