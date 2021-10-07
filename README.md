@@ -1,4 +1,6 @@
-# Mapping_with_more_data
+# Mapping_More_FEMA
+Mapping shiny work at: https://rickyz.shinyapps.io/MappingMoreFEMA/
 
-### Data prepare for mapping: MapDataClean.R
-### Mapping: MappingFEMA.Rmd
+## Files:
+**Data prepare for mapping**: MapDataClean.R
+**Mapping**: MappingFEMA.Rmd
